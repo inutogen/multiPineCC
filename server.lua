@@ -28,14 +28,15 @@ end
 local function bootConnection()
     while true do
         sleep(0.3)
-        for _,v in ipairs(received) do
-            if v.received == false then
-                table.remove(pos,v)
+        for id, isReceived in pairs(received) do
+            if not isReceived then
+                pos[id] = nil
             end
         end
-        for _,v in ipairs(received) do
-            v.received = false
+        for id, _ in pairs(received) do
+            received[id] = false
         end
     end
 end
+
 parallel.waitForAny(getData, gameTick, bootConnection)
