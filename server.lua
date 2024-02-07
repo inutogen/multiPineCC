@@ -5,6 +5,7 @@ rednet.host("GS", "server"..tostring(os.getComputerID()))
 local idlist = {}
 local pos = {}
 local received = {}
+local temprec = {}
 local function getData()
     while true do
         local id,msg,prot = rednet.receive()
@@ -27,10 +28,14 @@ end
 local function bootConnection()
     while true do
         sleep(0.3)
-        for i,v in ipairs(received) do
-            print(i,v)
+        for _,v in ipairs(received) do
+            if v.received == false then
+                table.remove(pos,v)
+            end
         end
-        received = {}
+        for _,v in ipairs(received) do
+            v.received = false
+        end
     end
 end
 parallel.waitForAny(getData, gameTick, bootConnection)
