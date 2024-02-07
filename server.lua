@@ -26,10 +26,11 @@ end
 
 local function bootConnection()
     while true do
-        sleep(0.1)
+        sleep(0.3)
         for i,v in ipairs(received) do
             print(i,v)
         end
+        received = {}
     end
 end
 parallel.waitForAny(getData, gameTick, bootConnection)
