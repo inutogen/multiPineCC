@@ -32,7 +32,7 @@ while true do
     rednet.send(hostname,"received")
     res = textutils.unserialise(res)
     local objects = {}
-    for i,v in ipairs(res) do
+    for i,v in pairs(res) do
         objects[#objects+1] = frame:newObject("models/box",v[1],v[2],v[3])
     end
     frame:drawObjects(objects)
