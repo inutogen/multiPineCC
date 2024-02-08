@@ -1,7 +1,10 @@
-local tickSpeed = 10
+--configurable variables
+local tickSpeed = 10 -- updates per second
+local serverName = "server"..tostring(os.getComputerID())
 
-rednet.open("top")
-rednet.host("GS", "server"..tostring(os.getComputerID()))
+
+peripheral.find("modem", rednet.open
+rednet.host("MultiPine", serverName)
 local idlist = {}
 local pos = {}
 local received = {}
@@ -21,7 +24,7 @@ local function gameTick()
     while true do
         sleep(1/tickSpeed)
         print(textutils.serialise(pos))
-        rednet.broadcast(textutils.serialise(pos),"GS")
+        rednet.broadcast(textutils.serialise(pos),"MultiPine")
     end
 end
 
@@ -30,7 +33,8 @@ local function bootConnection()
         sleep(0.3)
         for id, isReceived in pairs(received) do
             if not isReceived then
-                table.remove(pos,id)
+                pos[id] = nil
+                break
             end
         end
         for id, _ in pairs(received) do
