@@ -30,7 +30,7 @@ local function bootConnection()
         sleep(0.3)
         for id, isReceived in pairs(received) do
             if not isReceived then
-                pos[id] = nil
+                table.remove(pos,id)
             end
         end
         for id, _ in pairs(received) do
