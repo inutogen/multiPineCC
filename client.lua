@@ -1,5 +1,7 @@
-rednet.open("top")
 local hostname = 0
+
+
+peripheral.find("modem", rednet.open)
 pine = require("/Pine3D")
 local frame = pine.newFrame()
 frame:setCamera(0, 6, 0, 0, 0, -90)
@@ -28,7 +30,7 @@ local objects = {}
 
 local function display()
     while true do
-        local _, res = rednet.receive("GS")
+        local _, res = rednet.receive("MultiPine")
         rednet.send(hostname, "received")
         res = textutils.unserialize(res)
 
