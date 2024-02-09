@@ -62,7 +62,7 @@ if selection == "List servers" then
     for i, v in pairs(serverdata) do
         table.insert(entries, "Server " .. i .. " (" .. v .. " devices)")
         table.insert(desc,"Join server")
-        inverted[v] = i
+        inverted["Server " .. i .. " (" .. v .. " devices)"] = i
     end
 
     if #entries == 0 then
@@ -104,7 +104,7 @@ local function runControls()
         elseif key == keys.q then
             y = y - 0.25
         end
-        rednet.send(hostname, { x, y, z })
+        rednet.send(hostname, { x, y, z },"MultiPine")
     end
 end
 
