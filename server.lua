@@ -15,7 +15,9 @@ local function getData()
         if msg == "received" then
             received[id] = true
         else
-            pos[id] = msg
+            if prot == "MultiPine" then
+                pos[id] = msg
+            end
         end
     end
 end
@@ -24,7 +26,7 @@ local function gameTick()
     while true do
         sleep(1/tickSpeed)
         print(textutils.serialise(pos))
-        rednet.broadcast(textutils.serialise(pos),"MultiPine")
+        rednet.broadcast(textutils.serialise(pos),"MultiPineR")
     end
 end
 
