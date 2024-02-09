@@ -11,7 +11,7 @@ local serverdata = {}
 
 local function search()
     while true do
-        local id, msg = rednet.receive("MultiPine")
+        local id, msg = rednet.receive("MultiPineR")
         if serverdata[id] == nil then
             local devcount = 0
             for _, v2 in pairs(textutils.unserialize(msg)) do
@@ -111,7 +111,7 @@ local objects = {}
 
 local function display()
     while true do
-        local id, res = rednet.receive("MultiPine")
+        local id, res = rednet.receive("MultiPineR")
         if id == hostname then
             rednet.send(hostname, "received")
             res = textutils.unserialize(res)
