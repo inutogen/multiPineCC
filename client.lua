@@ -42,30 +42,40 @@ PrimeUI.selectionBox(term.current(), 4, 6, 40, 8, entries2, "done", function(opt
 local _, _, selection = PrimeUI.run()
 
 if selection == "List servers" then
-    parallel.waitForAny(search, function()
-        local entries = {}
-        local desc = {}
-
-        for i, v in pairs(serverdata) do
-            table.insert(entries, "Server " .. i .. " (" .. v .. " devices)")
+    local function parallelsearch()
+        while true do
+            search()
         end
+    end
 
-        if #entries == 0 then
-            table.insert(entries, "Back")
-            table.insert(desc, "No servers found")
-        end
+    local function wait()
+        sleep(1)
+    end
 
-        PrimeUI.clear()
-        PrimeUI.label(term.current(), 3, 2, "Sample Text")
-        PrimeUI.horizontalLine(term.current(), 3, 3, #("Sample Text") + 2)
+    parallel.waitForAny(parallelsearch, wait)
+    
+    local entries = {}
+    local desc = {}
 
-        local redrawServer = PrimeUI.textBox(term.current(), 3, 15, 40, 3, desc[1])
-        PrimeUI.borderBox(term.current(), 4, 6, 40, 8)
-        PrimeUI.selectionBox(term.current(), 4, 6, 40, 8, entries, "done", function(option) redrawServer(desc[option]) end)
+    for i, v in pairs(serverdata) do
+        table.insert(entries, "Server " .. i .. " (" .. v .. " devices)")
+    end
 
-        local _, _, serverSelection = PrimeUI.run()
-        print(serverSelection)
-    end)
+    if #entries == 0 then
+        table.insert(entries, "Back")
+        table.insert(desc, "No servers found")
+    end
+
+    PrimeUI.clear()
+    PrimeUI.label(term.current(), 3, 2, "Sample Text")
+    PrimeUI.horizontalLine(term.current(), 3, 3, #("Sample Text") + 2)
+
+    local redrawServer = PrimeUI.textBox(term.current(), 3, 15, 40, 3, desc[1])
+    PrimeUI.borderBox(term.current(), 4, 6, 40, 8)
+    PrimeUI.selectionBox(term.current(), 4, 6, 40, 8, entries, "done", function(option) redrawServer(desc[option]) end)
+
+    local _, _, serverSelection = PrimeUI.run()
+    print(serverSelection)
 end
 
 sleep(5)
