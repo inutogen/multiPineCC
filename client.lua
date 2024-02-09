@@ -61,6 +61,7 @@ if selection == "List servers" then
 
     for i, v in pairs(serverdata) do
         table.insert(entries, "Server " .. i .. " (" .. v .. " devices)")
+        table.insert(desc,"Join server")
         inverted[v] = i
     end
 
