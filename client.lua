@@ -52,6 +52,8 @@ if selection == "List servers" then
         sleep(1)
     end
 
+    local inverted = {}
+    
     parallel.waitForAny(parallelsearch, wait)
     
     local entries = {}
@@ -59,6 +61,7 @@ if selection == "List servers" then
 
     for i, v in pairs(serverdata) do
         table.insert(entries, "Server " .. i .. " (" .. v .. " devices)")
+        inverted[v] = i
     end
 
     if #entries == 0 then
@@ -75,10 +78,9 @@ if selection == "List servers" then
     PrimeUI.selectionBox(term.current(), 4, 6, 40, 8, entries, "done", function(option) redrawServer(desc[option]) end)
 
     local _, _, serverSelection = PrimeUI.run()
-    print(serverSelection)
+    local index = inverted[serverSelection]
+    hostname = tonumber(index)
 end
-
-sleep(5)
 
 local frame = pine.newFrame()
 frame:setCamera(0, 6, 0, 0, 0, -90)
