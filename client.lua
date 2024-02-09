@@ -57,7 +57,7 @@ if selection == "List servers" then
     for i=1,#entries do
         table.insert(desc, "Connect to server")
     end
-    if entries == {} then
+    if #entries == 0 then
         table.insert(entries,"Back"); table.insert(desc,"No servers found")
     end
     PrimeUI.clear()
