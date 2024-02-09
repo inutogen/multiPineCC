@@ -3,7 +3,7 @@ local hostname = 0
 
 peripheral.find("modem", rednet.open)
 pine = require("/Pine3D")
-prime = require("/PrimeUI")
+PrimeUI = require("/PrimeUI")
 PrimeUI.clear()
 PrimeUI.label(term.current(), 3, 2, "Sample Text")
 PrimeUI.horizontalLine(term.current(), 3, 3, #("Sample Text") + 2)
@@ -48,6 +48,7 @@ if selection == "List servers" then
             end
         end
     end
+    search()
     local entries = {}
     local desc = {}
     for _,v in pairs(serverdata) do
@@ -55,6 +56,9 @@ if selection == "List servers" then
     end
     for i=1,#entries do
         table.insert(desc, "Connect to server")
+    end
+    if entries == {} then
+        table.insert(entries,"Back"); table.insert(desc,"No servers found")
     end
     PrimeUI.clear()
     PrimeUI.label(term.current(), 3, 2, "Sample Text")
