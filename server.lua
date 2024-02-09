@@ -3,7 +3,7 @@ local tickSpeed = 10 -- updates per second
 local serverName = "server"..tostring(os.getComputerID())
 
 
-peripheral.find("modem", rednet.open
+peripheral.find("modem", rednet.open)
 rednet.host("MultiPine", serverName)
 local idlist = {}
 local pos = {}
