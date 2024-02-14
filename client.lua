@@ -4,8 +4,8 @@ peripheral.find("modem", rednet.open)
 pine = require("/Pine3D")
 PrimeUI = require("/PrimeUI")
 PrimeUI.clear()
-PrimeUI.label(term.current(), 3, 2, "Sample Text")
-PrimeUI.horizontalLine(term.current(), 3, 3, #("Sample Text") + 2)
+PrimeUI.label(term.current(), 3, 2, "MultiPine")
+PrimeUI.horizontalLine(term.current(), 3, 3, #("MultiPine") + 2)
 
 local serverdata = {}
 
@@ -71,8 +71,8 @@ if selection == "List servers" then
     end
 
     PrimeUI.clear()
-    PrimeUI.label(term.current(), 3, 2, "Sample Text")
-    PrimeUI.horizontalLine(term.current(), 3, 3, #("Sample Text") + 2)
+    PrimeUI.label(term.current(), 3, 2, "MultiPine")
+    PrimeUI.horizontalLine(term.current(), 3, 3, #("MultiPine") + 2)
 
     local redrawServer = PrimeUI.textBox(term.current(), 3, 15, 40, 3, desc[1])
     PrimeUI.borderBox(term.current(), 4, 6, 40, 8)
@@ -81,8 +81,17 @@ if selection == "List servers" then
     local _, _, serverSelection = PrimeUI.run()
     local index = inverted[serverSelection]
     hostname = tonumber(index)
+else
+    PrimeUI.clear()
+    PrimeUI.label(term.current(), 3, 2, "MultiPine")
+    PrimeUI.horizontalLine(term.current(), 3, 3, #("MultiPine") + 2)
+    PrimeUI.label(term.current(), 3, 5, "Enter server ID")
+    PrimeUI.borderBox(term.current(), 4, 7, 40, 1)
+    PrimeUI.inputBox(term.current(), 4, 7, 40, "result")
+    local _, _, text = PrimeUI.run()
+    hostname = tonumber(text)
 end
-
+    
 local frame = pine.newFrame()
 frame:setCamera(0, 6, 0, 0, 0, -90)
 
@@ -127,8 +136,15 @@ local function display()
                     objects[i] = newObject
                 end
             end
+            local allObj = {}
 
-            frame:drawObjects(objects)
+            local count = 1
+            for k,v in pairs(objects) do
+                allObj[count] = v
+                count = count + 1
+            end
+            
+            frame:drawObjects(allObj)
             frame:drawBuffer()
         end
     end
