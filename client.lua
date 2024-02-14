@@ -4,14 +4,14 @@ peripheral.find("modem", rednet.open)
 pine = require("/Pine3D")
 PrimeUI = require("/PrimeUI")
 PrimeUI.clear()
-PrimeUI.label(term.current(), 3, 2, "MultiPine")
-PrimeUI.horizontalLine(term.current(), 3, 3, #("MultiPine") + 2)
+PrimeUI.label(term.current(), 3, 2, "MultiPineUI")
+PrimeUI.horizontalLine(term.current(), 3, 3, #("MultiPineUI") + 2)
 
 local serverdata = {}
 
-local function search()
+local function search(hostdata)
     while true do
-        local id, msg = rednet.receive("MultiPineR")
+        local id, msg = rednet.receive(hostdata.."R")
         if serverdata[id] == nil then
             local devcount = 0
             for _, v2 in pairs(textutils.unserialize(msg)) do
@@ -42,9 +42,16 @@ PrimeUI.selectionBox(term.current(), 4, 6, 40, 8, entries2, "done", function(opt
 local _, _, selection = PrimeUI.run()
 
 if selection == "List servers" then
+    PrimeUI.clear()
+    PrimeUI.label(term.current(), 3, 2, "MultiPineUI")
+    PrimeUI.horizontalLine(term.current(), 3, 3, #("MultiPineUI") + 2)
+    PrimeUI.label(term.current(), 3, 5, "Enter a server type (e.g. MultiPine)")
+    PrimeUI.borderBox(term.current(), 4, 7, 40, 1)
+    PrimeUI.inputBox(term.current(), 4, 7, 40, "result")
+    _, _, text = PrimeUI.run()
     local function parallelsearch()
         while true do
-            search()
+            search(text)
         end
     end
 
@@ -71,8 +78,8 @@ if selection == "List servers" then
     end
 
     PrimeUI.clear()
-    PrimeUI.label(term.current(), 3, 2, "MultiPine")
-    PrimeUI.horizontalLine(term.current(), 3, 3, #("MultiPine") + 2)
+    PrimeUI.label(term.current(), 3, 2, "MultiPineUI")
+    PrimeUI.horizontalLine(term.current(), 3, 3, #("MultiPineUI") + 2)
 
     local redrawServer = PrimeUI.textBox(term.current(), 3, 15, 40, 3, desc[1])
     PrimeUI.borderBox(term.current(), 4, 6, 40, 8)
@@ -83,8 +90,8 @@ if selection == "List servers" then
     hostname = tonumber(index)
 else
     PrimeUI.clear()
-    PrimeUI.label(term.current(), 3, 2, "MultiPine")
-    PrimeUI.horizontalLine(term.current(), 3, 3, #("MultiPine") + 2)
+    PrimeUI.label(term.current(), 3, 2, "MultiPineUI")
+    PrimeUI.horizontalLine(term.current(), 3, 3, #("MultiPineUI") + 2)
     PrimeUI.label(term.current(), 3, 5, "Enter server ID")
     PrimeUI.borderBox(term.current(), 4, 7, 40, 1)
     PrimeUI.inputBox(term.current(), 4, 7, 40, "result")
@@ -113,7 +120,7 @@ local function runControls()
         elseif key == keys.q then
             y = y - 0.25
         end
-        rednet.send(hostname, { x, y, z },"MultiPine")
+        rednet.send(hostname, { x, y, z },text)
     end
 end
 
@@ -121,7 +128,7 @@ local objects = {}
 
 local function display()
     while true do
-        local id, res = rednet.receive("MultiPineR")
+        local id, res = rednet.receive(text.."R")
         if id == hostname then
             rednet.send(hostname, "received")
             res = textutils.unserialize(res)
